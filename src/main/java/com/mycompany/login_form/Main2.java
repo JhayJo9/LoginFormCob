@@ -28,7 +28,14 @@ public class Main2 extends javax.swing.JFrame {
     public Main2() {
         initComponents();
         
-        
+        txt_studno.setEnabled(false);
+        txt_last.setEnabled(false);
+        txt_first.setEnabled(false);
+        txt_middle.setEnabled(false);
+        txt_add.setEnabled(false);
+        txt_bday.setEnabled(false);
+        jc_dept.setEnabled(false);
+        jc_course.setEnabled(false);
         
     }
     
@@ -300,6 +307,7 @@ public class Main2 extends javax.swing.JFrame {
         jLabel9.setText("Course:");
 
         jc_dept.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "School of Computer Studies", "School of Education", "School of Business Management", "School of Hospitality and Tourism Management", "------------Select Department----------" }));
+        jc_dept.setSelectedIndex(4);
         jc_dept.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jc_deptActionPerformed(evt);
@@ -454,6 +462,45 @@ public class Main2 extends javax.swing.JFrame {
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         // TODO add your handling code here:
+        
+          Connection conmain = null;
+         PreparedStatement pstmain = null;
+       
+        try {
+          String urlmain = "jdbc:ucanaccess://JavaLogin.accdb";
+          conmain = DriverManager.getConnection(urlmain);
+          String sql = "INSERT into StudInfoTbl([STUD-NO], [LAST-NAME], [FIRST-NAME], [MIDDLE-NAME], Address, Birthday, Department, Course) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+          pstmain = conmain.prepareStatement(sql);
+
+          String studentNumber, lastName, firstName, middleName, address, birthDate, department, course;
+
+          studentNumber = txt_studno.getText();
+          lastName = txt_last.getText();
+          firstName = txt_first.getText();
+          middleName = txt_middle.getText();
+          address = txt_add.getText();
+          birthDate = txt_bday.getText();
+          department = (String) jc_dept.getSelectedItem();
+          course = (String) jc_course.getSelectedItem();
+
+          pstmain.setString(1, studentNumber);   // STUD-NO
+          pstmain.setString(2, lastName);        // LAST-NAME
+          pstmain.setString(3, firstName);       // FIRST-NAME
+          pstmain.setString(4, middleName);      // MIDDLE-NAME
+          pstmain.setString(5, address);         // Address
+          pstmain.setString(6, birthDate);       // Birthday
+          pstmain.setString(7, department);      // Department
+          pstmain.setString(8, course);          // Course
+
+          pstmain.executeUpdate();
+          JOptionPane.showMessageDialog(rootPane, "Inserted Successfully!");
+          tableupdate();
+      
+        
+        
+      } catch (Exception e) {
+         System.out.println(e);
+      }
     }//GEN-LAST:event_btn_saveActionPerformed
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
@@ -519,6 +566,15 @@ public class Main2 extends javax.swing.JFrame {
 
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
         // TODO add your handling code here:
+        
+        txt_studno.setEnabled(true);
+        txt_last.setEnabled(true);
+        txt_first.setEnabled(true);
+        txt_middle.setEnabled(true);
+        txt_add.setEnabled(true);
+        txt_bday.setEnabled(true);
+        jc_dept.setEnabled(true);
+        jc_course.setEnabled(true);
         
          Connection conmain = null;
          PreparedStatement pstmain = null;
@@ -587,46 +643,26 @@ public class Main2 extends javax.swing.JFrame {
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         // TODO add your handling code here:
-         Connection conmain = null;
-         PreparedStatement pstmain = null;
        
-        try {
-          String urlmain = "jdbc:ucanaccess://JavaLogin.accdb";
-          conmain = DriverManager.getConnection(urlmain);
-          String sql = "INSERT into StudInfoTbl([STUD-NO], [LAST-NAME], [FIRST-NAME], [MIDDLE-NAME], Address, Birthday, Department, Course) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-          pstmain = conmain.prepareStatement(sql);
-
-          String studentNumber, lastName, firstName, middleName, address, birthDate, department, course;
-
-          studentNumber = txt_studno.getText();
-          lastName = txt_last.getText();
-          firstName = txt_first.getText();
-          middleName = txt_middle.getText();
-          address = txt_add.getText();
-          birthDate = txt_bday.getText();
-          department = (String) jc_dept.getSelectedItem();
-          course = (String) jc_course.getSelectedItem();
-
-          pstmain.setString(1, studentNumber);   // STUD-NO
-          pstmain.setString(2, lastName);        // LAST-NAME
-          pstmain.setString(3, firstName);       // FIRST-NAME
-          pstmain.setString(4, middleName);      // MIDDLE-NAME
-          pstmain.setString(5, address);         // Address
-          pstmain.setString(6, birthDate);       // Birthday
-          pstmain.setString(7, department);      // Department
-          pstmain.setString(8, course);          // Course
-
-          pstmain.executeUpdate();
-          JOptionPane.showMessageDialog(rootPane, "Inserted Successfully!");
-          tableupdate();
-      
+        txt_studno.setEnabled(true);
+        txt_last.setEnabled(true);
+        txt_first.setEnabled(true);
+        txt_middle.setEnabled(true);
+        txt_add.setEnabled(true);
+        txt_bday.setEnabled(true);
+        jc_dept.setEnabled(true);
+        jc_course.setEnabled(true);
         
-        
-      } catch (Exception e) {
-         System.out.println(e);
-      }
-
-        
+            
+        txt_studno.setText("");
+        txt_last.setText("");
+        txt_first.setText("");
+        txt_middle.setText("");
+        txt_add.setText("");
+        txt_bday.setText("");
+        jc_dept.setSelectedItem("------------Select Department----------");
+        jc_course.setSelectedItem("------------Select Department----------");
+        txt_studno.requestFocus();
     }//GEN-LAST:event_btn_addActionPerformed
 
     /**

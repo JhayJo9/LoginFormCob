@@ -459,6 +459,7 @@
                 <StringItem index="4" value="------------Select Department----------"/>
               </StringArray>
             </Property>
+            <Property name="selectedIndex" type="int" value="4"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jc_deptActionPerformed"/>
