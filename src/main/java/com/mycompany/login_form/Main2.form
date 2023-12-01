@@ -74,20 +74,22 @@
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="8" rowCount="8">
-                <Column editable="true" title="Student no." type="java.lang.Object"/>
-                <Column editable="true" title="Last Name" type="java.lang.Object"/>
-                <Column editable="true" title="First Name" type="java.lang.Object"/>
-                <Column editable="true" title="Middle Name" type="java.lang.Object"/>
-                <Column editable="true" title="Address" type="java.lang.Object"/>
-                <Column editable="true" title="Birthday" type="java.lang.Object"/>
-                <Column editable="true" title="Department" type="java.lang.Object"/>
-                <Column editable="true" title="Course" type="java.lang.Object"/>
+                <Column editable="false" title="Student no." type="java.lang.Object"/>
+                <Column editable="false" title="Last Name" type="java.lang.Object"/>
+                <Column editable="false" title="First Name" type="java.lang.Object"/>
+                <Column editable="false" title="Middle Name" type="java.lang.Object"/>
+                <Column editable="false" title="Address" type="java.lang.Object"/>
+                <Column editable="false" title="Birthday" type="java.lang.Object"/>
+                <Column editable="false" title="Department" type="java.lang.Object"/>
+                <Column editable="false" title="Course" type="java.lang.Object"/>
               </Table>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="fe" red="ff" type="rgb"/>
             </Property>
             <Property name="showGrid" type="boolean" value="true"/>
+            <Property name="surrendersFocusOnKeystroke" type="boolean" value="true"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>

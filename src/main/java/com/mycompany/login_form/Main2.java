@@ -145,9 +145,19 @@ public class Main2 extends javax.swing.JFrame {
             new String [] {
                 "Student no.", "Last Name", "First Name", "Middle Name", "Address", "Birthday", "Department", "Course"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setToolTipText("");
         jTable1.setGridColor(new java.awt.Color(255, 254, 255));
         jTable1.setShowGrid(true);
+        jTable1.setSurrendersFocusOnKeystroke(true);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
