@@ -509,7 +509,9 @@ public class Main2 extends javax.swing.JFrame {
 
     private void btn_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exitActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+      LogIn frame5 = new LogIn();
+      frame5.setVisible(true);
+      this.setVisible(false);
     }//GEN-LAST:event_btn_exitActionPerformed
 
     private void jc_deptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_deptActionPerformed
