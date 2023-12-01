@@ -4,6 +4,7 @@
  */
 package com.mycompany.login_form;
     
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,6 +22,10 @@ public class LogIn extends javax.swing.JFrame {
      */
     public LogIn() {
         initComponents();
+        
+        // jframe bg color
+        Color kulay = new Color(254,255,254,255);
+        getContentPane().setBackground(kulay);   
     }
 
     /**
