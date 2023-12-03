@@ -48,50 +48,188 @@ public class Main2 extends javax.swing.JFrame {
         
         int c;
          try {
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-            con = DriverManager.getConnection("jdbc:ucanaccess://JavaLogin.accdb");
+                Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+                con = DriverManager.getConnection("jdbc:ucanaccess://JavaLogin.accdb");
 
 
-            String sql = "SELECT * FROM StudInfoTbl";
-            pst = con.prepareStatement(sql);
-            rs = pst.executeQuery();
-            ResultSetMetaData rsd = rs.getMetaData();
-            c = rsd.getColumnCount();
-            DefaultTableModel dft = (DefaultTableModel) jTable1.getModel();
-            dft.setRowCount(0);        
-        while(rs.next()){
-            Vector v2 = new Vector();
-            for(int i =1; i<=c;i++){
-                v2.add(rs.getString("Stud-no"));
-                v2.add(rs.getString("Last-name"));
-                v2.add(rs.getString("First-name"));
-                v2.add(rs.getString("Middle-name"));
-                v2.add(rs.getString("Address"));
-                v2.add(rs.getString("Birthday"));
-                v2.add(rs.getString("Department"));
-                v2.add(rs.getString("Course"));
-                
+                String sql = "SELECT * FROM StudInfoTbl";
+                pst = con.prepareStatement(sql);
+                rs = pst.executeQuery();
+                ResultSetMetaData rsd = rs.getMetaData();
+                c = rsd.getColumnCount();
+                DefaultTableModel dft = (DefaultTableModel) jTable1.getModel();
+                dft.setRowCount(0);        
+            while(rs.next()){
+                Vector v2 = new Vector();
+                for(int i =1; i<=c;i++){
+                    v2.add(rs.getString("Stud-no"));
+                    v2.add(rs.getString("Last-name"));
+                    v2.add(rs.getString("First-name"));
+                    v2.add(rs.getString("Middle-name"));
+                    v2.add(rs.getString("Address"));
+                    v2.add(rs.getString("Birthday"));
+                    v2.add(rs.getString("Department"));
+                    v2.add(rs.getString("Course"));
+
+                }
+                dft.addRow(v2);
+
             }
-            dft.addRow(v2);
-            
-        }
-        
-           
-        txt_studno.setText("");
-        txt_last.setText("");
-        txt_first.setText("");
-        txt_middle.setText("");
-        txt_add.setText("");
-        txt_bday.setText("");
-        jc_dept.setSelectedItem("---Select Department---");
-        jc_course.setSelectedItem("-------Select Course--------");
-        txt_studno.requestFocus();
 
-    } catch (Exception e) {
-        e.printStackTrace();
+
+            txt_studno.setText("");
+            txt_last.setText("");
+            txt_first.setText("");
+            txt_middle.setText("");
+            txt_add.setText("");
+            txt_bday.setText("");
+            jc_dept.setSelectedItem("---Select Department---");
+            jc_course.setSelectedItem("-------Select Course--------");
+            txt_studno.requestFocus();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+   //
+   public void savebtn(){
+            Connection conmain = null;
+             PreparedStatement pstmain = null;
        
-    }
-    }
+            try {
+              String urlmain = "jdbc:ucanaccess://JavaLogin.accdb";
+              conmain = DriverManager.getConnection(urlmain);
+              String sql = "INSERT into StudInfoTbl([STUD-NO], [LAST-NAME], [FIRST-NAME], [MIDDLE-NAME], Address, Birthday, Department, Course) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+              pstmain = conmain.prepareStatement(sql);
+
+              String studentNumber, lastName, firstName, middleName, address, birthDate, department, course;
+
+              studentNumber = txt_studno.getText();
+              lastName = txt_last.getText();
+              firstName = txt_first.getText();
+              middleName = txt_middle.getText();
+              address = txt_add.getText();
+              birthDate = txt_bday.getText();
+              department = (String) jc_dept.getSelectedItem();
+              course = (String) jc_course.getSelectedItem();
+
+              pstmain.setString(1, studentNumber);   // STUD-NO
+              pstmain.setString(2, lastName);        // LAST-NAME
+              pstmain.setString(3, firstName);       // FIRST-NAME
+              pstmain.setString(4, middleName);      // MIDDLE-NAME
+              pstmain.setString(5, address);         // Address
+              pstmain.setString(6, birthDate);       // Birthday
+              pstmain.setString(7, department);      // Department
+              pstmain.setString(8, course);          // Course
+
+              pstmain.executeUpdate();
+              JOptionPane.showMessageDialog(rootPane, "Inserted Successfully!");
+              tableupdate();
+
+
+
+          } catch (Exception e) {
+             System.out.println(e);
+          }
+   }
+   //
+   public void addnewrecord(){
+            txt_studno.setEnabled(true);
+            txt_last.setEnabled(true);
+            txt_first.setEnabled(true);
+            txt_middle.setEnabled(true);
+            txt_add.setEnabled(true);
+            txt_bday.setEnabled(true);
+            jc_dept.setEnabled(true);
+            jc_course.setEnabled(true);
+
+
+            txt_studno.setText("");
+            txt_last.setText("");
+            txt_first.setText("");
+            txt_middle.setText("");
+            txt_add.setText("");
+            txt_bday.setText("");
+            jc_dept.setSelectedItem("------------Select Department----------");
+            jc_course.setSelectedItem("------------Select Department----------");
+            txt_studno.requestFocus();
+   }
+   //
+   public void updaterecord(){
+        txt_studno.setEnabled(true);
+        txt_last.setEnabled(true);
+        txt_first.setEnabled(true);
+        txt_middle.setEnabled(true);
+        txt_add.setEnabled(true);
+        txt_bday.setEnabled(true);
+        jc_dept.setEnabled(true);
+        jc_course.setEnabled(true);
+        
+         Connection conmain = null;
+         PreparedStatement pstmain = null;
+       
+          try
+          {
+           String urlmain = "jdbc:ucanaccess://JavaLogin.accdb";
+           conmain = DriverManager.getConnection(urlmain);
+           DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+           int selectedRow = jTable1.getSelectedRow();
+           String id = (model.getValueAt(selectedRow, 0).toString());
+           
+           
+           String studentNumber, lastName, firstName, middleName, address, birthDate, department, course;
+        
+            studentNumber = txt_studno.getText();
+            lastName = txt_last.getText();
+            firstName = txt_first.getText();
+            middleName = txt_middle.getText();
+            address = txt_add.getText();
+            birthDate = txt_bday.getText();
+            department = (String) jc_dept.getSelectedItem().toString();
+            course = (String) jc_course.getSelectedItem().toString();  
+            String sql = "UPDATE StudInfoTbl SET `Stud-no`=?, `Last-name`=?, `First-name`=?, `Middle-name`=?, Address=?, Birthday=?, Department=?, Course=? WHERE `Stud-no`=?";
+            pstmain = conmain.prepareStatement(sql);
+
+            // Correct order for setting values in the prepared statement
+            pstmain.setString(1, studentNumber);   // Stud-no
+            pstmain.setString(2, lastName);        // Last-name
+            pstmain.setString(3, firstName);       // First-name
+            pstmain.setString(4, middleName);      // Middle-name
+            pstmain.setString(5, address);         // Address
+            pstmain.setString(6, birthDate);       // Birthday
+            pstmain.setString(7, department);      // Department
+            pstmain.setString(8, course);          // Course
+            pstmain.setString(9, studentNumber);   // WHERE condition
+  
+            int k = JOptionPane.showConfirmDialog(rootPane, "Confirm to Update?", "Update", JOptionPane.YES_NO_OPTION);
+            if (k == JOptionPane.YES_OPTION)
+            {
+                
+                pstmain.executeUpdate();
+                JOptionPane.showMessageDialog(rootPane, "Updated Successfully!");
+                txt_studno.setText("");
+                txt_last.setText("");
+                txt_first.setText("");
+                txt_middle.setText("");
+                txt_add.setText("");
+                txt_bday.setText("");
+                jc_dept.setSelectedItem("---Select Department---");
+                jc_course.setSelectedItem("-------Select Course--------");
+                txt_studno.requestFocus();
+                tableupdate();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(rootPane, "Data not Updated!");
+            }
+       
+       }
+       catch (Exception e)
+            {
+                System.out.println(e);
+            }
+   }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -418,89 +556,16 @@ public class Main2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        // TODO add your handling code here:
-        Connection con = null;
-        PreparedStatement pst = null;
-        ResultSet rs= null;
-        
-       int c;
-    try {
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-            con = DriverManager.getConnection("jdbc:ucanaccess://JavaLogin.accdb");
 
-
-            String sql = "SELECT * FROM StudInfoTbl";
-            pst = con.prepareStatement(sql);
-            rs = pst.executeQuery();
-             ResultSetMetaData rsd = rs.getMetaData();
-            c = rsd.getColumnCount();
-
-            DefaultTableModel dft = (DefaultTableModel) jTable1.getModel();
-            dft.setRowCount(0);        
-        
-        while(rs.next()){
-            Vector v2 = new Vector();
-            for(int i =1; i<= c;i++){
-                v2.add(rs.getString("Stud-no"));
-                v2.add(rs.getString("Last-name"));
-                v2.add(rs.getString("First-name"));
-                v2.add(rs.getString("Middle-name"));
-                v2.add(rs.getString("Address"));
-                v2.add(rs.getString("Birthday"));
-                v2.add(rs.getString("Department"));
-                v2.add(rs.getString("Course"));
-            }
-            dft.addRow(v2);
-            
-        }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-        e.printStackTrace();
-    }
+       // method called
+       tableupdate();
+       
     }//GEN-LAST:event_formWindowActivated
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         // TODO add your handling code here:
-        
-          Connection conmain = null;
-         PreparedStatement pstmain = null;
-       
-        try {
-          String urlmain = "jdbc:ucanaccess://JavaLogin.accdb";
-          conmain = DriverManager.getConnection(urlmain);
-          String sql = "INSERT into StudInfoTbl([STUD-NO], [LAST-NAME], [FIRST-NAME], [MIDDLE-NAME], Address, Birthday, Department, Course) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-          pstmain = conmain.prepareStatement(sql);
-
-          String studentNumber, lastName, firstName, middleName, address, birthDate, department, course;
-
-          studentNumber = txt_studno.getText();
-          lastName = txt_last.getText();
-          firstName = txt_first.getText();
-          middleName = txt_middle.getText();
-          address = txt_add.getText();
-          birthDate = txt_bday.getText();
-          department = (String) jc_dept.getSelectedItem();
-          course = (String) jc_course.getSelectedItem();
-
-          pstmain.setString(1, studentNumber);   // STUD-NO
-          pstmain.setString(2, lastName);        // LAST-NAME
-          pstmain.setString(3, firstName);       // FIRST-NAME
-          pstmain.setString(4, middleName);      // MIDDLE-NAME
-          pstmain.setString(5, address);         // Address
-          pstmain.setString(6, birthDate);       // Birthday
-          pstmain.setString(7, department);      // Department
-          pstmain.setString(8, course);          // Course
-
-          pstmain.executeUpdate();
-          JOptionPane.showMessageDialog(rootPane, "Inserted Successfully!");
-          tableupdate();
-      
-        
-        
-      } catch (Exception e) {
-         System.out.println(e);
-      }
+        // method called
+          savebtn();
     }//GEN-LAST:event_btn_saveActionPerformed
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
@@ -512,6 +577,7 @@ public class Main2 extends javax.swing.JFrame {
       LogIn frame5 = new LogIn();
       frame5.setVisible(true);
       this.setVisible(false);
+      
     }//GEN-LAST:event_btn_exitActionPerformed
 
     private void jc_deptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_deptActionPerformed
@@ -569,102 +635,13 @@ public class Main2 extends javax.swing.JFrame {
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
         // TODO add your handling code here:
         
-        txt_studno.setEnabled(true);
-        txt_last.setEnabled(true);
-        txt_first.setEnabled(true);
-        txt_middle.setEnabled(true);
-        txt_add.setEnabled(true);
-        txt_bday.setEnabled(true);
-        jc_dept.setEnabled(true);
-        jc_course.setEnabled(true);
-        
-         Connection conmain = null;
-         PreparedStatement pstmain = null;
-       
-       try
-       {
-           String urlmain = "jdbc:ucanaccess://JavaLogin.accdb";
-           conmain = DriverManager.getConnection(urlmain);
-           DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-           int selectedRow = jTable1.getSelectedRow();
-           String id = (model.getValueAt(selectedRow, 0).toString());
-           
-           
-           String studentNumber, lastName, firstName, middleName, address, birthDate, department, course;
-        
-            studentNumber = txt_studno.getText();
-            lastName = txt_last.getText();
-            firstName = txt_first.getText();
-            middleName = txt_middle.getText();
-            address = txt_add.getText();
-            birthDate = txt_bday.getText();
-            department = (String) jc_dept.getSelectedItem().toString();
-            course = (String) jc_course.getSelectedItem().toString();  
-            String sql = "UPDATE StudInfoTbl SET `Stud-no`=?, `Last-name`=?, `First-name`=?, `Middle-name`=?, Address=?, Birthday=?, Department=?, Course=? WHERE `Stud-no`=?";
-            pstmain = conmain.prepareStatement(sql);
-
-            // Correct order for setting values in the prepared statement
-            pstmain.setString(1, studentNumber);   // Stud-no
-            pstmain.setString(2, lastName);        // Last-name
-            pstmain.setString(3, firstName);       // First-name
-            pstmain.setString(4, middleName);      // Middle-name
-            pstmain.setString(5, address);         // Address
-            pstmain.setString(6, birthDate);       // Birthday
-            pstmain.setString(7, department);      // Department
-            pstmain.setString(8, course);          // Course
-            pstmain.setString(9, studentNumber);   // WHERE condition
-  
-            int k = JOptionPane.showConfirmDialog(rootPane, "Confirm to Update?", "Update", JOptionPane.YES_NO_OPTION);
-            if (k == JOptionPane.YES_OPTION)
-            {
-                
-                pstmain.executeUpdate();
-                JOptionPane.showMessageDialog(rootPane, "Updated Successfully!");
-                txt_studno.setText("");
-                txt_last.setText("");
-                txt_first.setText("");
-                txt_middle.setText("");
-                txt_add.setText("");
-                txt_bday.setText("");
-                jc_dept.setSelectedItem("---Select Department---");
-                jc_course.setSelectedItem("-------Select Course--------");
-                txt_studno.requestFocus();
-                tableupdate();
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(rootPane, "Data not Updated!");
-            }
-       
-       }
-       catch (Exception e)
-            {
-                System.out.println(e);
-            }
+       updaterecord();
     }//GEN-LAST:event_btn_updateActionPerformed
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         // TODO add your handling code here:
-       
-        txt_studno.setEnabled(true);
-        txt_last.setEnabled(true);
-        txt_first.setEnabled(true);
-        txt_middle.setEnabled(true);
-        txt_add.setEnabled(true);
-        txt_bday.setEnabled(true);
-        jc_dept.setEnabled(true);
-        jc_course.setEnabled(true);
-        
-            
-        txt_studno.setText("");
-        txt_last.setText("");
-        txt_first.setText("");
-        txt_middle.setText("");
-        txt_add.setText("");
-        txt_bday.setText("");
-        jc_dept.setSelectedItem("------------Select Department----------");
-        jc_course.setSelectedItem("------------Select Department----------");
-        txt_studno.requestFocus();
+       //method called
+       addnewrecord();
     }//GEN-LAST:event_btn_addActionPerformed
 
     /**
